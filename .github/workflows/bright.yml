@@ -1,0 +1,52 @@
+name: Security Tests
+
+on:
+  pull_request:
+    branches:
+      - '*'
+
+permissions:
+  checks: write
+  contents: read
+
+jobs:
+  security-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install SecTester
+        run: npm i --save-dev @sectester/core @sectester/repeater @sectester/scan @sectester/runner
+
+      - name: Set up Docker Compose
+        run: |
+          docker compose up -d
+          go run main.go &
+
+      - name: Wait for application to be ready
+        run: |
+          for i in {1..10}; do
+            nc -zv 127.0.0.1 8080 && echo "Application is ready" && exit 0
+            echo "Waiting for application..."
+            sleep 5
+          done
+          echo "Application failed to start" && exit 1
+
+      - name: Run security tests
+        env:
+          BRIGHT_HOSTNAME: ${{ vars.BRIGHT_HOSTNAME }}
+          BRIGHT_PROJECT_ID: ${{ vars.BRIGHT_PROJECT_ID }}
+          BRIGHT_TOKEN: ${{ secrets.BRIGHT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRIGHT_TARGET_URL: http://127.0.0.1:8080
+        run: node --experimental-transform-types --experimental-strip-types --test .brightsec/tests/*.test.ts --test-concurrency=4
