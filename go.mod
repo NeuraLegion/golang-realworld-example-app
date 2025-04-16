@@ -1,6 +1,7 @@
 module github.com/k0kishima/golang-realworld-example-app
 
 go 1.22.0
+toolchain go1.24.1
 
 require entgo.io/ent v0.13.1
 
@@ -10,7 +11,7 @@ require (
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/joho/godotenv v1.5.1
 	github.com/stretchr/testify v1.8.3
-	golang.org/x/crypto v0.9.0
+	golang.org/x/crypto v0.36.0
 )
 
 require (
@@ -34,14 +35,14 @@ require (
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.11 // indirect
 	golang.org/x/arch v0.3.0 // indirect
-	golang.org/x/net v0.10.0 // indirect
-	golang.org/x/sys v0.17.0 // indirect
+	golang.org/x/net v0.38.0 // indirect
+	golang.org/x/sys v0.31.0 // indirect
 	google.golang.org/protobuf v1.30.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
 require (
-	ariga.io/atlas v0.19.1-0.20240203083654-5948b60a8e43
+	ariga.io/atlas v0.19.1-0.20240203083654-5948b60a8e43 // indirect
 	github.com/agext/levenshtein v1.2.1 // indirect
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
 	github.com/go-openapi/inflect v0.19.0 // indirect
@@ -50,6 +51,6 @@ require (
 	github.com/hashicorp/hcl/v2 v2.13.0 // indirect
 	github.com/mitchellh/go-wordwrap v0.0.0-20150314170334-ad45545899c7 // indirect
 	github.com/zclconf/go-cty v1.8.0 // indirect
-	golang.org/x/mod v0.15.0 // indirect
-	golang.org/x/text v0.13.0 // indirect
+	golang.org/x/mod v0.17.0 // indirect
+	golang.org/x/text v0.23.0 // indirect
 )
