@@ -1,8 +1,15 @@
 package utils
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	"error"
+
+	"golang.org/x/crypto/bcrypt"
+)
 
 func HashPassword(password string) (string, error) {
+	if len(password) < 8 {
+		return "", errors.New("password must be at least 8 characters")
+	}
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return "", err
