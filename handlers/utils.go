@@ -35,7 +35,11 @@ func GetCurrentUserFromContext(c *gin.Context) (*ent.User, bool) {
 }
 
 func getUserByUsername(client *ent.Client, c *gin.Context, username string) (*ent.User, error) {
-	return client.User.Query().Where(user.UsernameEQ(username)).Only(c.Request.Context())
+	u, err := client.User.Query().Where(user.UsernameEQ(username)).Only(c.Request.Context())
+	if ent.IsNotFound(err) {
+		return nil, nil
+	}
+	return u, err
 }
 
 func isFollowing(c *gin.Context, follower *ent.User, followee *ent.User) (bool, error) {
